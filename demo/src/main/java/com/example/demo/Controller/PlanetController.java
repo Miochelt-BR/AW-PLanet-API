@@ -23,7 +23,7 @@ public class PlanetController {
     // 1. Criar um planeta
     @PostMapping
     public ResponseEntity<Planet> createPlanet(@RequestBody Planet planet) {
-        Planet planetCreated = planetService.createPlanet(planet);
+        var planetCreated = planetService.createPlanet(planet);
         return ResponseEntity.status(HttpStatus.CREATED).body(planetCreated);
     }
 
@@ -37,7 +37,7 @@ public class PlanetController {
     // 3. Obter um planeta específico pelo ID
     @GetMapping("/{id}")
     public ResponseEntity<Planet> getPlanet(@PathVariable Long id) {
-        Planet planet = planetService.getPlanet(id);
+        var planet = planetService.getPlanet(id);
         if (planet != null) {
             return ResponseEntity.ok(planet);
         } else {

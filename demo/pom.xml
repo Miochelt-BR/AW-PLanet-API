@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>atma</artifactId>
+	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>atma</name>
-	<description>Projeto  de loja de games </description>
+	<name>demo</name>
+	<description>Proj planet Star  </description>
 	<url/>
 	<licenses>
 		<license/>
@@ -47,6 +47,12 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version> <!-- Verificar la última versión en el repositorio de Maven Central -->
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
