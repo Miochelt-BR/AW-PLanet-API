@@ -17,11 +17,24 @@ public class PlanetService {
     }
 
     public Planet createPlanet(Planet planet) {
+        // Verifica se já existe um planeta com o mesmo nome
+        if (planet == null) {
+            throw new IllegalArgumentException("O planeta não pode ser nulo");
+        }
+
+        if (planet.getName() == null || planet.getName().isEmpty()) {
+            throw new IllegalArgumentException("O nome do planeta não pode ser nulo ou vazio");
+        }
+
+        // Verifica se o planeta já existe no repositório
         if (planetRepository.existsByName(planet.getName())) {
             throw new IllegalArgumentException("Já existe um planeta com o nome " + planet.getName());
         }
+
+        // Salva o novo planeta no repositório
         return planetRepository.save(planet);
     }
+
 
     public List<Planet> getAllPlanets() {
         return planetRepository.findAll();

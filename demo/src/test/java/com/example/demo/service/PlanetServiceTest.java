@@ -1,29 +1,74 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Planet;
+import com.example.demo.repository.PlanetRepository;
 
-import static com.example.demo.common.PlanetConstains.PLANET;
-import static org.assertj.core.api.Assertions.assertThat; // Importação correta do assertThat do AssertJ
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@SpringBootTest(classes = PlanetService.class)
+@ExtendWith(MockitoExtension.class)
 public class PlanetServiceTest {
 
-    @Autowired
+    @Mock
+    private PlanetRepository planetRepository;
+
+    @InjectMocks
     private PlanetService planetService;
 
-    ///**
-    // * Tests if creating a planet with valid data returns the expected Planet object.
-    // */ Testa se criar um planeta com dados válidos retorna o planeta esperado
-    @Test
-    public void createdPlanet_withValidData_returnsPlanet() {
-        Planet sut = planetService.createPlanet(PLANET);
+    @BeforeEach
+    void setUp() {
+        // Inicializa os mocks antes de cada teste
+        MockitoAnnotations.openMocks(this);
+    }
 
-        // Assert
-        // Verifica se o resultado é o esperado
-        assertThat(sut).isEqualTo(PLANET);
+
+    @Test
+    void shouldThrowExceptionWhenPlanetIsNull() {
+        // Verifica se uma exceção é lançada quando o planeta é nulo
+        assertThatThrownBy(() -> planetService.createPlanet(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("O planeta não pode ser nulo");
+
+        // Verifica se o método save nunca foi chamado
+        verify(planetRepository, never()).save(any());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPlanetNameIsNull() {
+        // Criação do objeto Planet com nome nulo
+        Planet planet = new Planet();
+        planet.setName(null);
+
+        // Verifica se uma exceção é lançada quando o nome do planeta é nulo
+        assertThatThrownBy(() -> planetService.createPlanet(planet))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("O nome do planeta não pode ser nulo ou vazio");
+
+        // Verifica se o método save nunca foi chamado
+        verify(planetRepository, never()).save(any());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPlanetNameIsEmpty() {
+        // Criação do objeto Planet com nome vazio
+        Planet planet = new Planet();
+        planet.setName("");
+
+        // Verifica se uma exceção é lançada quando o nome do planeta é vazio
+        assertThatThrownBy(() -> planetService.createPlanet(planet))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("O nome do planeta não pode ser nulo ou vazio");
+
+        // Verifica se o método save nunca foi chamado
+        verify(planetRepository, never()).save(any());
     }
 }
