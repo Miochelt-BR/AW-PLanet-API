@@ -17,7 +17,7 @@ public class PlanetService {
     }
 
     public Planet createPlanet(Planet planet) {
-        // Verifica se já existe um planeta com o mesmo nome
+
         if (planet == null) {
             throw new IllegalArgumentException("O planeta não pode ser nulo");
         }
@@ -31,7 +31,7 @@ public class PlanetService {
             throw new IllegalArgumentException("Já existe um planeta com o nome " + planet.getName());
         }
 
-        // Salva o novo planeta no repositório
+
         return planetRepository.save(planet);
     }
 
